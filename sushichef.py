@@ -239,37 +239,11 @@ class YouTubeResourceNode(YouTubeResource):
         else:
             for url in self.playlist_links():
                 youtube = YouTubeResourceNode(url)
-                # info = youtube.get_video_info(None, False)
                 info = youtube.get_resource_info()
                 name_url.append((info["title"], url))
             with open(videos_url_path, "w") as f:
                 json.dump(name_url, f)
         return name_url
-
-    def get_video_info(self, download_to=None, subtitles=True):
-        ydl_options = {
-                'writesubtitles': subtitles,
-                'allsubtitles': subtitles,
-                'no_warnings': True,
-                'restrictfilenames':True,
-                'continuedl': True,
-                'quiet': False,
-                'format': "bestvideo[height<={maxheight}][ext=mp4]+bestaudio[ext=m4a]/best[height<={maxheight}][ext=mp4]".format(maxheight='480'),
-                'outtmpl': '{}/%(id)s'.format(download_to),
-                'noplaylist': True
-            }
-
-        with youtube_dl.YoutubeDL(ydl_options) as ydl:
-            try:
-                ydl.add_default_info_extractors()
-                info = ydl.extract_info(self.source_id, download=(download_to is not None))
-                return info
-            except(youtube_dl.utils.DownloadError, youtube_dl.utils.ContentTooShortError,
-                    youtube_dl.utils.ExtractorError) as e:
-                LOGGER.info('An error occured ' + str(e))
-                LOGGER.info(self.source_id)
-            except KeyError as e:
-                LOGGER.info(str(e))
 
     def subtitles_dict(self):
         subs = []
