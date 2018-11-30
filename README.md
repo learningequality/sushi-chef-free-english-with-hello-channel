@@ -39,7 +39,7 @@ into a format that can be imported into Kolibri Studio.
 
 
 
-## How to install ffmpeg on ubuntu with aac audio code support.
+## How to install ffmpeg on ubuntu with aac audio codec support.
 
 source: https://linuxconfig.org/install-ffmpeg-on-ubuntu-18-04-bionic-beaver-linux
 
